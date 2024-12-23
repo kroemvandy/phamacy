@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medicine_tbs', function (Blueprint $table) {
-            $table->id("id");
-            $table->string("medicine_name");
-            $table->string("description");
-            $table->double("price");
-            $table->integer("qty");
-            $table->date("expire_date");
+        Schema::create('tblCarts', function (Blueprint $table) {
+            $table->id("Id");
+            $table->unsignedBigInteger("MedicineId");
+            $table->integer("Quantity");
             $table->timestamps();
+
+            //foreign key
+            $table->foreign("MedicineId")->references("Id")->on("tblMedicines")->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('medicine_tbs');
+        Schema::dropIfExists('tblCarts');
     }
 };
