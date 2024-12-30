@@ -13,7 +13,7 @@ class MCart extends Model
         'MedicineId',
         'Quantity',
     ];
-    public function Medicine (){
+    public function medicine (){
         return $this->belongsTo(MMedicines::class,'MedicineId', 'id');
     }
 }

@@ -9,11 +9,13 @@ class MCategory extends Model
 {
     use HasFactory;
 
+    protected $table = 'tblcategories';
+
     protected $fillable = [
         'CategoryName',
     ];
 
-    public function Product (){
+    public function medicine(){
         return $this->hasMany(MMedicines::class,'CategoryId','id');
     }
 }

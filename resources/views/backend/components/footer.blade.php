@@ -1,0 +1,3 @@
+@stack('JS')
+</body>
+</html>

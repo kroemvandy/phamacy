@@ -14,7 +14,7 @@ class MImage extends Model
         'ImagePath',
     ];
 
-    public function Medicine (){
+    public function medicine (){
         return $this->belongsTo(MMedicine::class,'MedicineId','id');
     }
 }

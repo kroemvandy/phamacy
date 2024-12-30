@@ -14,7 +14,7 @@ class MSale extends Model
         'TotalAmount',
     ];
 
-    public function SaleDetail()
+    public function saleDetail()
     {
         return $this->belongsToMany(MSaleDetail::class,'SaleId','id');
     }

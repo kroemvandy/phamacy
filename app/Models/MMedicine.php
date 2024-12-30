@@ -9,6 +9,8 @@ class MMedicine extends Model
 {
     use HasFactory;
 
+    protected $table = "tblMedicines";
+
     protected $fillable = [
         'MedicineName',
         'MedicineDescription',
@@ -16,23 +18,24 @@ class MMedicine extends Model
         'Qty',
         'CategoryId',
         'ExpDate',
+        'Image',
     ];
 
-    public function Category()
+    public function category()
     {
         return $this->belongsTo(MCategory::class,'CategoryId','id');
     }
 
-    public function Carts () {
+    public function carts () {
         return $this->hasMany(MCart::class,'MedicinceId','id');
     }
 
-    public function Image()
+    public function image()
     {
         return $this->hasMany(MImage::class,'MedicinceId','id');
     }
 
-    public function SaleDetail (){
+    public function saleDetail (){
         return $this->belongsToMany(MSaleDetail::class,'MedicineId','id');
     }
 }

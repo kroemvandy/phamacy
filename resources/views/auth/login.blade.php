@@ -12,8 +12,16 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+       <div class="flex justify-end mt-1">
+        @if (Route::has('register'))
+        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+            {{ __('Do not have an account?') }}
+        </a>
+        @endif
+       </div>
+
         <!-- Password -->
-        <div class="mt-4">
+        <div class="mt-2">
             <x-input-label for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full"

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,18 +17,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('backend.dashboard.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+}); 
+
+// All Category Route
+Route::controller(CategoryController::class)->group(function() {
+    Route::get('category', 'index')->name('get-category');
+    Route::get('create-category', 'create')->name('create-category');
+    Route::post('store-category', 'store')->name('store-category');
+    Route::get('edit-category/{id}', 'edit')->name('edit-category');
+    Route::put('update-category/{id}', 'update')->name('update-category');
+    Route::delete('delete-category/{id}', 'destroy')->name('delete-category');
 });
 
+// All Medicine Route
+Route::controller(MedicineController::class)->group(function() {
+    Route::get('get-medicine', 'index')->name('get-medicine');
+    Route::get('create-medicine', 'create')->name('create-medicine');
+    Route::post('store-medicine', 'store')->name('store-medicine');
+});
+
+Route::get('/',[MedicineController::class, 'index']);
 require __DIR__.'/auth.php';

@@ -16,11 +16,11 @@ class MSaleDetail extends Model
         'Price',
     ];
     
-    public function Medicine (){
+    public function medicine (){
         return $this->hasMany(MMecidicine::class,'MedicineId','id');
     }
 
-    public function Sale () {
+    public function sale () {
         return $this->hasMany(MSale::class,'SaleId','id');
     }
 }

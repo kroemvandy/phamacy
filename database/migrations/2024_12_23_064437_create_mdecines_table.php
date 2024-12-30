@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tblMedicines', function (Blueprint $table) {
-            $table->id();
-            $table->string("MedicineName");
-            $table->text("MedicineDescription");
-            $table->double("Price");
-            $table->integer("Qty");
-            $table->unsignedBigInteger("Categoryid");
-            $table->date("ExpDate");
-            $table->timestamps();
+            Schema::create('tblMedicines', function (Blueprint $table) {
+                $table->id();
+                $table->string("MedicineName");
+                $table->text("MedicineDescription");
+                $table->double("Price");
+                $table->integer("Qty");
+                $table->unsignedBigInteger("CategoryId");
+                $table->date("ExpDate");
+                $table->string("Image");
+                $table->timestamps();
 
-            //add ForingKey 
-            $table->foreign("CategoryId")->references("id")->on("tblCategories")->onDelete('cascade'); 
-        });
+                //add ForingKey 
+                $table->foreign("CategoryId")->references("id")->on("tblCategories")->onDelete('cascade'); 
+            });
     }
 
     /**
