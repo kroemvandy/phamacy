@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\MedicineController;
@@ -48,6 +49,17 @@ Route::controller(MedicineController::class)->group(function() {
     Route::get('get-medicine', 'index')->name('get-medicine');
     Route::get('create-medicine', 'create')->name('create-medicine');
     Route::post('store-medicine', 'store')->name('store-medicine');
+    Route::get('edit-medicine/{id}', 'edit')->name('edit-medicine');
+    Route::put('update-medicine/{id}', 'update')->name('update-medicine');
+    Route::delete('delete/medicine/{id}', 'destroy')->name('delete.medicine');
+    Route::get('view/detail/{id}', 'show')->name('view.detail');
+});
+
+// All Cart Route
+Route::controller(CartController::class)->group(function() {
+    Route::get('get/cart', 'index')->name('get.cart');
+    Route::get('create/cart', 'create')->name('create.cart');
+    Route::post('store/cart', 'store')->name('store.cart');
 });
 
 Route::get('/',[MedicineController::class, 'index']);

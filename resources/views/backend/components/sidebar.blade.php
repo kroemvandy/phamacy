@@ -49,14 +49,15 @@
             <li class="sidebar-li mt-2">
                 <a class="flex items-center px-6 py-2 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
                     href="{{ route('get-medicine') }}">
-                    <i class='fas fa-first-aid'></i>
+                    <i class='fas fa-first-aid w-6 h-6 flex items-center'></i>
+
                     <span class="mx-3">Medicine</span>
                 </a>
             </li>
 
             <li class="sidebar-li mt-2">
                 <a class="flex items-center px-6 py-2 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                    href="#">
+                    href="{{ route('get.cart') }}">
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -64,7 +65,7 @@
                         </path>
                     </svg>
 
-                    <span class="mx-3">Tables</span>
+                    <span class="mx-3">Cart Medicine</span>
                 </a>
             </li>
 

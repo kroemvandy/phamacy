@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = MCategory::all();
+        $category = MCategory::latest()->get();
         return view('backend.category.index', compact('category'));
     }
 

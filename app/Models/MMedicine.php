@@ -26,13 +26,13 @@ class MMedicine extends Model
         return $this->belongsTo(MCategory::class,'CategoryId','id');
     }
 
-    public function carts () {
-        return $this->hasMany(MCart::class,'MedicinceId','id');
+    public function cart () {
+        return $this->hasMany(MCart::class,'MedicineId','id');
     }
 
     public function image()
     {
-        return $this->hasMany(MImage::class,'MedicinceId','id');
+        return $this->hasMany(MImage::class,'MedicineId','id');
     }
 
     public function saleDetail (){

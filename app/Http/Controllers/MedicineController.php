@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Storage;
 use File;
+use Illuminate\Support\Facades\Storage as FacadesStorage;
+use Ramsey\Uuid\Type\Integer;
 
 class MedicineController extends Controller
 {
@@ -16,7 +18,7 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        $medicine = MMedicine::all();
+        $medicine = MMedicine::latest()->get();
         return view('backend.medicine.index', compact('medicine'));
     }
 
@@ -34,7 +36,57 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+            try {
+                $data = $request->validate([
+                    'MedicineName' => 'required',
+                    'MedicineDescription' => 'required',
+                    'Price' => 'required|numeric',
+                    'Qty' => 'required|integer',
+                    'CategoryId' => 'required|exists:tblcategories,id',
+                    'ExpDate' => 'required|date',
+                    'Image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+                ]);
+
+                if ($request->hasFile('Image')) {
+                    $image_path = $request->file('Image')->store('images', 'public');
+                    $data['Image'] = $image_path;
+                } else {
+                    return back()->with('error', 'Image upload failed!');
+                }
+
+                MMedicine::create($data);
+
+                return redirect()->route('get-medicine')->with('success', 'Medicine has been created successfully!');
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                dd($e->errors());
+            }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $medicine = MMedicine::findOrFail($id);
+        return view('backend.medicine.view-detail', compact('medicine'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $categories = MCategory::all();
+        $medicine = MMedicine::findOrFail($id);
+        return view('backend.medicine.edit', compact('medicine', 'categories', 'id'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        try{
             $data = $request->validate([
                 'MedicineName' => 'required',
                 'MedicineDescription' => 'required',
@@ -45,43 +97,24 @@ class MedicineController extends Controller
                 'Image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
             ]);
 
-            if ($request->hasFile('Image')) {
+            $medicine = MMedicine::findOrFail($id);
+            $data = $request->except(['Image']);
+
+            if($request->hasFile('Image')) {
+                if($medicine->Image && Storage::disk('public')->exists($medicine->Image)) {
+                    Storage::disk('public')->delete($medicine->Image);
+                }
+
                 $image_path = $request->file('Image')->store('images', 'public');
                 $data['Image'] = $image_path;
-            } else {
-                return back()->with('error', 'Image upload failed!');
             }
+            $medicine->update($data);
 
-            MMedicine::create($data);
+            return redirect()->route('get-medicine')->with('success', 'Medicine updated successfully!');
 
-            return redirect()->route('get-medicine')->with('success', 'Medicine has been created successfully!');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e->errors());
+        }catch(\Illuminate\Validation\ValidationException $e){
+            dd($e->error());
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
     }
 
     /**
@@ -89,6 +122,13 @@ class MedicineController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $medicine = MMedicine::findOrFail($id);
+
+        if($medicine->Image && Storage::disk('public')->exists($medicine->Image)) {
+            Storage::disk('public')->delete($medicine->Image);
+        }
+
+        $medicine->delete();
+        return redirect()->back()->with('success', 'Medicine deleted successfully!');
     }
 }

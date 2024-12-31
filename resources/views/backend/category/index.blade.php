@@ -35,12 +35,12 @@
             <a href="{{ route('create-category') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><i class='fas fa-plus-square'></i> Create Category</a>
         </div>
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg max-h-[430px]">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg max-h-[430px] no-scrollbar">
             <table class="w-full text-sm text-left rtl:text-right text-gray-800 dark:text-gray-400">
-                <thead class="text-xs text-gray-800 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
+                <thead class="text-xs text-gray-800 uppercase bg-gray-50 dark:bg-gray-100 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            No
+                            No.
                         </th>
                         <th scope="col" class="px-48 py-3">
                             Category Name
@@ -54,7 +54,7 @@
 
                 @if(count($category) > 0)
                         @foreach ( $category as $item)
-                        <tr class="odd:bg-white even:bg-gray-50 border-b dark:border-gray-300  overflow-auto">
+                        <tr class="odd:bg-white even:bg-gray-50 border-b dark:border-gray-200">
                             <th scope="row" class="px-6 py-0 font-medium text-gray-800 whitespace-nowrap">
                                 {{ $item->id }}
                             </th>
@@ -62,11 +62,11 @@
                                 {{ $item->CategoryName }}
                             </th>
                             <th scope="row" class="px-6 py-2 text-gray-800 whitespace-nowrap flex gap-2 items-center">
-                                <a href="{{ route('edit-category', [$item->id]) }}" class="tooltip text-white font-normal bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 rounded-md text-sm px-3 py-2.5 transition duration-150 ease-in-out dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"><i class='fas fa-edit'></i><span class="tooltiptext">Edit</span></a>
+                                <a href="{{ route('edit-category', [$item->id]) }}" class="tooltip text-white font-normal bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 rounded-md text-sm px-3 py-2 transition duration-150 ease-in-out dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"><i class='fas fa-edit'></i><span class="tooltiptext">Edit</span></a>
                                 <form action="{{ route('delete-category', [$item->id]) }}" method="POST" >
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="tooltip show_confirm focus:outline-none text-white bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-400 font-normal rounded-md text-sm px-3 py-2.5 transition duration-150 ease-in-out dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700"><i class='fas fa-trash-alt'></i><span class="tooltiptext">Delete</span></button>
+                                    <button type="submit" class="tooltip show_confirm focus:outline-none text-white bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-400 font-normal rounded-md text-sm px-3 py-2 transition duration-150 ease-in-out dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700"><i class='fas fa-trash-alt'></i><span class="tooltiptext">Delete</span></button>
                                 </form>
                             </th>  
                         </tr>

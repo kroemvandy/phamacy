@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class MCart extends Model
 {
-        use HasFactory;
+    use HasFactory;
+
+    protected $table = 'tblcarts';
 
     protected $fillable = [
         'MedicineId',
         'Quantity',
     ];
     public function medicine (){
-        return $this->belongsTo(MMedicines::class,'MedicineId', 'id');
+        return $this->belongsTo(MMedicine::class,'MedicineId', 'id');
     }
 }
