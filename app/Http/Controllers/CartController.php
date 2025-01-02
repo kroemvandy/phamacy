@@ -13,8 +13,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = MCart::latest()->get();
-        return view('backend.cart.index', compact('cart'));
+        $medicineModel = MMedicine::all(); 
+        return view('backend.cart.index', compact('medicineModel'));
     }
 
     /**
