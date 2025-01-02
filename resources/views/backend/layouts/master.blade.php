@@ -38,6 +38,58 @@
             }
         });
     </script>
+    <script>
+        const products = [
+            { name: "Risus Fringilla", price: 35.00, quantity: 0 },
+            { name: "Commodo Fusce", price: 35.00, quantity: 0 },
+            { name: "Lorem Pharetra", price: 35.00, quantity: 0 },
+        ];
+    
+        const discountPercent = 20;
+        const taxPercent = 1.5;
+    
+        const productsContainer = document.getElementById('products');
+        const subtotalElement = document.getElementById('subtotal');
+        const taxElement = document.getElementById('tax');
+        const totalElement = document.getElementById('total');
+        const payButton = document.getElementById('payButton');
+    
+        function renderProducts() {
+            productsContainer.innerHTML = '';
+            products.forEach((product, index) => {
+                productsContainer.innerHTML += `
+                    <div class="flex justify-between items-center">
+                        <span>${product.name}</span>
+                        <div class="flex items-center">
+                            <button class="px-2 bg-gray-300 rounded-md" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span class="px-2">${product.quantity}</span>
+                            <button class="px-2 bg-gray-300 rounded-md" onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                        <span>$${(product.price * product.quantity).toFixed(2)}</span>
+                    </div>`;
+            });
+            updateSummary();
+        }
+    
+        function updateQuantity(index, change) {
+            products[index].quantity = Math.max(1, products[index].quantity + change);
+            renderProducts();
+        }
+    
+        function updateSummary() {
+            let subtotal = products.reduce((sum, p) => sum + p.price * p.quantity, 0);
+            let discount = (subtotal * discountPercent) / 100;
+            let tax = ((subtotal - discount) * taxPercent) / 100;
+            let total = subtotal - discount + tax;
+    
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            taxElement.textContent = `$${tax.toFixed(2)}`;
+            totalElement.textContent = `$${total.toFixed(2)}`;
+            payButton.textContent = `Pay ($${total.toFixed(2)})`;
+        }
+    
+        renderProducts();
+    </script>
   
 </body>
 
