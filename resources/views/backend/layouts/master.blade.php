@@ -38,11 +38,11 @@
             }
         });
     </script>
-    <script>
+    {{-- <script>
         const products = [
-            { name: "Risus Fringilla", price: 35.00, quantity: 0 },
-            { name: "Commodo Fusce", price: 35.00, quantity: 0 },
-            { name: "Lorem Pharetra", price: 35.00, quantity: 0 },
+            { name: "Risus Fringilla", price: 19.00, quantity: 0 },
+            { name: "Commodo Fusce", price: 19.00, quantity: 0 },
+            { name: "Lorem Pharetra", price: 19.00, quantity: 0 },
         ];
     
         const discountPercent = 20;
@@ -72,7 +72,7 @@
         }
     
         function updateQuantity(index, change) {
-            products[index].quantity = Math.max(1, products[index].quantity + change);
+            products[index].quantity = Math.max(0, products[index].quantity + change);
             renderProducts();
         }
     
@@ -89,7 +89,7 @@
         }
     
         renderProducts();
-    </script>
+    </script> --}}
   
 </body>
 
