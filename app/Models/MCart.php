@@ -9,7 +9,7 @@ class MCart extends Model
 {
     use HasFactory;
 
-    protected $table = 'tblcarts';
+    protected $table = 'tblCarts';
 
     protected $fillable = [
         'MedicineId',

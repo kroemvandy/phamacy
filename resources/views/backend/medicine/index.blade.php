@@ -117,8 +117,12 @@
 
                                     <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200">
                                         <span
-                                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                                            {{ $medicineItem->Price }} រៀល</span>
+                                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full items-center">
+                                            {{ $medicineItem->Price }}  
+                                              <svg width="25" height="25" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="50" cy="50" r="45" stroke="gold" stroke-width="3" fill="royalblue"/>
+                                                <text x="50%" y="90%" font-size="100" font-weight="bold" text-anchor="middle" fill="gold">៛</text>
+                                              </svg></span>
                                     </td>
 
                                     <td
@@ -147,8 +151,13 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @else
-                            <p>No Data</p>
+                            @else
+                            <span class="">
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th class="flex justify-center mt-10 mb-80 text-gray-500">No Data</th>
+                            </span>
                         @endif
 
                     </tbody>

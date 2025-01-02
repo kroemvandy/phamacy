@@ -9,7 +9,7 @@ class MCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'tblcategories';
+    protected $table = 'tblCategories';
 
     protected $fillable = [
         'CategoryName',

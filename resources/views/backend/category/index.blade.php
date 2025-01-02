@@ -72,9 +72,10 @@
                         </tr>
                     @endforeach
                     @else
-                    <tr>
-                        <th>No Data</th>
-                    </tr>
+                    <span class="flex justify-center">
+                        <th></th>
+                        <th class="flex justify-center mt-10 mb-96">No Data</th>
+                    </span>
                 @endif
                 </tbody>
             </table>

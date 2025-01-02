@@ -36,30 +36,30 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
-            try {
-                $data = $request->validate([
-                    'MedicineName' => 'required',
-                    'MedicineDescription' => 'required',
-                    'Price' => 'required|numeric',
-                    'Qty' => 'required|integer',
-                    'CategoryId' => 'required|exists:tblcategories,id',
-                    'ExpDate' => 'required|date',
-                    'Image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
-                ]);
+        try {
+            $data = $request->validate([
+                'MedicineName' => 'required',
+                'MedicineDescription' => 'required',
+                'Price' => 'required|numeric',
+                'Qty' => 'required|integer',
+                'CategoryId' => 'required|exists:tblCategories,id',
+                'ExpDate' => 'required|date',
+                'Image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            ]);
 
-                if ($request->hasFile('Image')) {
-                    $image_path = $request->file('Image')->store('images', 'public');
-                    $data['Image'] = $image_path;
-                } else {
-                    return back()->with('error', 'Image upload failed!');
-                }
-
-                MMedicine::create($data);
-
-                return redirect()->route('get-medicine')->with('success', 'Medicine has been created successfully!');
-            } catch (\Illuminate\Validation\ValidationException $e) {
-                dd($e->errors());
+            if ($request->hasFile('Image')) {
+                $image_path = $request->file('Image')->store('images', 'public');
+                $data['Image'] = $image_path;
+            } else {
+                return back()->with('error', 'Image upload failed!');
             }
+
+            MMedicine::create($data);
+
+            return redirect()->route('get-medicine')->with('success', 'Medicine has been created successfully!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            dd($e->errors());
+        }
     }
 
     /**
@@ -86,13 +86,14 @@ class MedicineController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         try{
             $data = $request->validate([
                 'MedicineName' => 'required',
                 'MedicineDescription' => 'required',
                 'Price' => 'required|numeric',
                 'Qty' => 'required|integer',
-                'CategoryId' => 'required|exists:tblcategories,id',
+                'CategoryId' => 'required|exists:tblCategories,id',
                 'ExpDate' => 'required|date',
                 'Image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
             ]);
