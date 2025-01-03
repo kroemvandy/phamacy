@@ -8,8 +8,7 @@
         <main class="flex flex-1 bg-white p-5 rounded-lg shadow-md">
             <section class="flex-1 p-5 bg-white">
                 <div class="flex mb-5">
-                    {{-- <input type="text" placeholder="Search items here..." class="flex-1 p-2 border border-gray-300 rounded-l-md">
-                    <button class="p-2 bg-gray-300 border border-gray-300 rounded-r-md">🔍</button> --}}
+
                     <form class="w-full mx-auto">
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-onl">Search</label>
                         <div class="relative">
@@ -52,7 +51,8 @@
                                     <a href="#"
                                         class="flex add-to-cart items-center justify-center rounded-md bg-blue-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300
                                         data-id="{{ $item->id }}"
-                                        data-name="{{ $item->MedicineName }}" data-price="{{ $item->Price }}">
+                                        data-name="{{ $item->MedicineName }}" data-price="{{ $item->Price }}"
+                                        data-price="{{ number_format($item->Price, 2, '.', '') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -71,110 +71,39 @@
                 </div>
             </section>
 
-            <aside class="w-1/3 p-5 bg-white border-l shadow-lg rounded-lg border">
+            <aside class="w-1/3 p-5 bg-white border-l shadow-lg rounded-lg border overflow-auto h-[550px] no-scrollbar">
                 <h2 class="text-lg font-semibold mb-4">Checkout</h2>
                 <div id="medicine" class="space-y-4">
                     <!-- Product Items -->
                 </div>
 
                 <div class="mt-6 space-y-3">
-                    <div class="flex justify-between">
+                    {{-- <div class="flex justify-between">
                         <span>Discount (%)</span>
-                        <span id="discount">20</span>
-                    </div>
+                        <span id="discount">0</span>
+                    </div> --}}
                     <div class="flex justify-between">
                         <span>Sub Total</span>
-                        <span id="subtotal">$84.00</span>
+                        <span id="subtotal">0</span>
                     </div>
                     <div class="flex justify-between font-bold">
                         <span>Total</span>
-                        <span id="total">$85.50</span>
+                        <span id="total">0</span>
                     </div>
                 </div>
-                <button id="payButton" class="w-full bg-green-500 rounded-lg text-white py-2 mt-4">Pay ($85.50)</button>
+                <button id="payButton" class="w-full bg-green-500 rounded-lg text-white py-2 mt-4">Pay (0)</button>
             </aside>
         </main>
     </div>
 @endsection
 
 @section('js')
-    {{-- <script>
-        function addToCart(id, name, price) {
-            //check if medicine already in cart
-            const existingMedicine = cart.find(item => item.id === id);
-
-            if (existingMedicine) {
-                existingMedicine.quantity += 1; //increase quantity if already in cart
-            } else {
-                cart.push({
-                    id,
-                    name,
-                    price,
-                    quantity: 1
-                });
-            }
-
-            updateCart(); //refresh cart UI
-        }
-
-        function updateCart() {
-            const medicineContainer = document.getElementById('medicine');
-            medicineContainer.innerHTML = ''; //clear existing content
-
-            let subtotal = 0;
-
-            cart.forEach(item => {
-                const medicineHTML = `
-                    <div class="flex justify-between">
-                        <span>${item.name} (x${item.quantity})</span>
-                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                    </div>
-                `;
-
-                medicineContainer.insertAdjacentHTML('beforeend', medicineHTML);
-                subtotal += item.price * item.quantity; //calculate subtotal
-            })
-            calculateTotal(subtotal); //update totals
-        }
-
-        function calculateTotal(subtotal) {
-            const discountRate = 20;
-            const discount = (subtotal * discountRate) / 100;
-            const total = subtotal - discount;
-
-            document.getElementById('subtotal').innerHTML = `$${subTotal.toFixed(2)}`;
-            document.getElementById('discount').innerHTML = `$${discountRate}%`;
-            document.getElementById('total').innerHTML = `$${total.toFixed(2)}`;
-
-            document.getElementById('payButton').innerHTML = `Pay ($${total.toFixed(2)})`;
-        }
-
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.add-to-cart')) {
-                const button = e.target.closest('.add-to-cart');
-                const id = button.getAttribute('data-id');
-                const name = button.getAttribute('data-name');
-                const price = parseFloat(button.getAttribute('data-price'));
-
-                addToCart(id, name, price); // Call addToCart
-            }
-        });
-
-        document.getElementById('payButton').addEventListener('click', function() {
-            if (cart.length === 0) {
-                alert('Please add some medicine to cart');
-                return;
-            }
-
-            alert('Payment successful');
-            cart = []; //clear cart after payment
-            updateCart(); //refresh cart ui
-        })
-    </script> --}}
     <script>
         let cart = []; // Initialize cart array
 
+        // Add to Cart Function
         function addToCart(id, name, price) {
+            id = parseInt(id); 
             const existingMedicine = cart.find(item => item.id === id);
 
             if (existingMedicine) {
@@ -191,48 +120,58 @@
             updateCart(); // Refresh cart UI
         }
 
+        // Update Cart UI
         function updateCart() {
-            const medicineContainer = document.getElementById('medicine'); // Correct ID
+            const medicineContainer = document.getElementById('medicine');
             medicineContainer.innerHTML = ''; // Clear existing content
 
             let subtotal = 0;
 
-            cart.forEach(item => { // Fix foreach -> forEach
+            cart.forEach(item => {
                 const medicineHTML = `
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center border-b pb-2 mb-2">
                 <span>${item.name} (x${item.quantity})</span>
-                <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                <span>${(item.price * item.quantity).toFixed(2)} រៀល</span>
+                <button class="text-red-500 ml-2" onclick="removeFromCart(${item.id})">X</button>
             </div>
         `;
-
-                medicineContainer.insertAdjacentHTML('beforeend', medicineHTML); // Fix typo
+                medicineContainer.insertAdjacentHTML('beforeend', medicineHTML);
                 subtotal += item.price * item.quantity;
             });
 
             calculateTotal(subtotal); // Update totals
         }
 
+        // Remove Item from Cart
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart(); // Refresh cart UI
+        }
+
+        // Calculate and Display Totals
         function calculateTotal(subtotal) {
             const discountRate = 20; // 20% discount
             const discount = (subtotal * discountRate) / 100;
             const total = subtotal - discount;
 
-            document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('discount').innerText = `${discountRate}%`;
-            document.getElementById('total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('subtotal').innerText = `${subtotal.toFixed(2)} រៀល`;
+            document.getElementById('total').innerText = `${total.toFixed(2)} រៀល`;
 
-            document.getElementById('payButton').innerText = `Pay ($${total.toFixed(2)})`;
+            document.getElementById('payButton').innerText = `Pay (${total.toFixed(2)}) រៀល`;
         }
 
         // Event Listener for "Add to Cart" buttons
         document.addEventListener('click', function(e) {
-            if (e.target.closest('.add-to-cart')) {
-                const button = e.target.closest('.add-to-cart');
+            const button = e.target.closest('.add-to-cart'); // Detect button click
+
+            if (button) {
+                e.preventDefault(); // Prevent default behavior
+
                 const id = button.getAttribute('data-id');
                 const name = button.getAttribute('data-name');
                 const price = parseFloat(button.getAttribute('data-price'));
 
-                addToCart(id, name, price); // Add to cart
+                addToCart(id, name, price); // Add item to cart
             }
         });
 
